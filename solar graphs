@@ -1,0 +1,197 @@
+"""velocity(time)"""
+import matplotlib.pyplot as plt
+import numpy as np
+import openpyxl
+from scipy.interpolate import interp1d
+plt.style.use('_mpl-gallery')
+
+data = openpyxl.open("werty.xlsx", read_only=True)
+sheet=data.active
+time = [sheet[i][3].value for i in range(4, 27)] 
+velocity = [sheet[i][4].value for i in range(4, 27)]
+distance = [sheet[i][5].value for i in range(4, 27)]
+
+fig, ax = plt.subplots(figsize=(12, 7))
+
+ax.errorbar(time, velocity, fmt='o', linewidth=2, capsize=6)
+
+time_0 = min(time)
+time_end = max(time)
+deg_0 = 0
+deg_end = 0
+
+while (time_0 // 10) != 0:
+       deg_0 += 1
+       time_0 = time_0 // 10
+
+time_0 = min(time) // (10**deg_0) * 10**deg_0
+
+while time_end // 10 != 0:
+       deg_end += 1
+       time_end = time_end // 10
+
+time_end = (max(time) // (10**(deg_end-2))+1) * 10**(deg_end-2)
+
+
+v_0 = min(velocity)
+v_end = max(velocity)
+deg_v0 = 0
+deg_vend = 0
+
+while (v_0 // 10) != 0:
+       deg_v0 += 1
+       v_0 = v_0 // 10
+
+v_0 = min(velocity) // (10**(deg_v0-1)) * 10**(deg_v0-1)
+
+while v_end // 10 != 0:
+       deg_vend += 1
+       v_end = v_end // 10
+
+v_end = (max(velocity) // (10**(deg_vend-1))+1) * 10**(deg_vend-1)
+
+ax.set(xlim=(time_0, time_end), xticks=np.arange(time_0, time_end + 1, (time_end-time_0) // 10), xlabel='$t, c$',
+       ylim=(v_0, v_end), yticks=np.arange(v_0, v_end + 1, (v_end - v_0) // 10), ylabel='$v, \, м/с$')
+
+
+x_new = np.linspace(min(time), max(time), 500)
+
+f = interp1d(time, velocity, kind='quadratic')
+y_smooth = f(x_new)
+
+ax.plot (x_new, y_smooth)
+
+plt.show()
+
+
+
+"""distance(time)"""
+import matplotlib.pyplot as plt
+import numpy as np
+import openpyxl
+from scipy.interpolate import interp1d
+plt.style.use('_mpl-gallery')
+
+data = openpyxl.open("werty.xlsx", read_only=True)
+sheet=data.active
+time = [sheet[i][3].value for i in range(4, 27)] 
+velocity = [sheet[i][4].value for i in range(4, 27)]
+distance = [sheet[i][5].value for i in range(4, 27)]
+
+fig, ax = plt.subplots(figsize=(12, 7))
+
+ax.errorbar(time, distance, fmt='o', linewidth=2, capsize=6)
+
+time_0 = min(time)
+time_end = max(time)
+deg_0 = 0
+deg_end = 0
+
+while (time_0 // 10) != 0:
+       deg_0 += 1
+       time_0 = time_0 // 10
+
+time_0 = min(time) // (10**deg_0) * 10**deg_0
+
+while time_end // 10 != 0:
+       deg_end += 1
+       time_end = time_end // 10
+
+time_end = (max(time) // (10**(deg_end-2))+1) * 10**(deg_end-2)
+
+
+d_0 = min(distance)
+d_end = max(distance)
+deg_d0 = 0
+deg_dend = 0
+
+while (d_0 // 10) != 0:
+       deg_d0 += 1
+       d_0 = d_0 // 10
+
+d_0 = min(distance) // (10**(deg_d0-2)) * 10**(deg_d0-2)
+
+while d_end // 10 != 0:
+       deg_dend += 1
+       d_end = d_end // 10
+
+d_end = (max(distance) // (10**(deg_dend-1))+1) * 10**(deg_dend-1)
+
+ax.set(xlim=(time_0, time_end), xticks=np.arange(time_0, time_end + 1, (time_end-time_0) // 10), xlabel='$t, c$',
+       ylim=(d_0, d_end), yticks=np.arange(d_0, d_end + 1, (d_end - d_0) // 10), ylabel='$d, \, м$')
+
+
+x_new = np.linspace(min(time), max(time), 500)
+
+f = interp1d(time, distance, kind='quadratic')
+y_smooth = f(x_new)
+
+ax.plot (x_new, y_smooth)
+
+plt.show()
+
+
+"""velocity(distance)"""
+import matplotlib.pyplot as plt
+import numpy as np
+import openpyxl
+from scipy.interpolate import interp1d
+plt.style.use('_mpl-gallery')
+
+data = openpyxl.open("werty.xlsx", read_only=True)
+sheet=data.active
+time = [sheet[i][3].value for i in range(4, 27)] 
+velocity = [sheet[i][4].value for i in range(4, 27)]
+distance = [sheet[i][5].value for i in range(4, 27)]
+
+fig, ax = plt.subplots(figsize=(12, 7))
+
+ax.errorbar(distance, velocity, fmt='o', linewidth=2, capsize=6)
+
+d_0 = min(distance)
+d_end = max(distance)
+deg_d0 = 0
+deg_dend = 0
+
+while (d_0 // 10) != 0:
+       deg_d0 += 1
+       d_0 = d_0 // 10
+
+d_0 = min(distance) // (10**(deg_d0-2)) * 10**(deg_d0-2)
+
+while d_end // 10 != 0:
+       deg_dend += 1
+       d_end = d_end // 10
+
+d_end = (max(distance) // (10**(deg_dend-1))+1) * 10**(deg_dend-1)
+
+
+v_0 = min(velocity)
+v_end = max(velocity)
+deg_v0 = 0
+deg_vend = 0
+
+while (v_0 // 10) != 0:
+       deg_v0 += 1
+       v_0 = v_0 // 10
+
+v_0 = min(velocity) // (10**(deg_v0-1)) * 10**(deg_v0-1)
+
+while v_end // 10 != 0:
+       deg_vend += 1
+       v_end = v_end // 10
+
+v_end = (max(velocity) // (10**(deg_vend-1))+1) * 10**(deg_vend-1)
+
+ax.set(xlim=(d_0, d_end), xticks=np.arange(d_0, d_end + 1, (d_end-d_0) // 10), xlabel='$d, м$',
+       ylim=(v_0, v_end), yticks=np.arange(v_0, v_end + 1, (v_end - v_0) // 10), ylabel='$v, \, м/с$')
+
+
+x_new = np.linspace(min(distance), max(distance), 500)
+
+f = interp1d(distance, velocity, kind='quadratic')
+y_smooth = f(x_new)
+
+ax.plot (x_new, y_smooth)
+
+plt.show()
